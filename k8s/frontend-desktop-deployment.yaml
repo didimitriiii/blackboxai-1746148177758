@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-desktop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-desktop
+  template:
+    metadata:
+      labels:
+        app: frontend-desktop
+    spec:
+      containers:
+        - name: frontend-desktop
+          image: frontend-desktop:latest
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-desktop-service
+spec:
+  selector:
+    app: frontend-desktop
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: ClusterIP
