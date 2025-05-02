@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-services
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-services
+  template:
+    metadata:
+      labels:
+        app: backend-services
+    spec:
+      containers:
+        - name: backend-services
+          image: backend-services:latest
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-services-service
+spec:
+  selector:
+    app: backend-services
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: ClusterIP
